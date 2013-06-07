@@ -1,0 +1,123 @@
+<!DOCTYPE>
+<html>
+	<head>
+		<title></title>
+		<link href="http://fonts.googleapis.com/css?family=Lobster" rel="stylesheet" type="text/css">
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
+	</head>
+	<body>
+		<style>
+			body {
+				font-family: 'Helvetica Neue', sans-serif;
+				padding: 0;margin: 0;
+				background: #08c;
+			}
+			#content {
+				padding: 0 20px;
+				width: 800px;
+				position: absolute;
+				left: 50%;
+				margin-left: -400px;
+				overflow-x: hidden;
+				height: 800px;	
+				background: white;			
+			}
+			#header h1 {
+				margin: 0;
+				padding: 5px;
+				font-family: 'Lobster';
+				font-size: 44px;
+			}
+			h1 em {
+				font-family: 'Helvetica Neue', sans-serif;
+				font-size: 20px;
+				color: #555;
+			}
+			#header {
+				margin-bottom: 20px;
+			}
+			#details {
+				position: absolute;
+				top: 100px;
+				left: 50px;
+				width: 340px;
+			}
+			#details h2 {
+				font-size: 44px;
+			} 
+			#details {				
+				color: white;
+				font-weight: lighter;
+				text-shadow: rgba(0, 0, 0, 1) 0px 4px 10px;
+			}
+			#details p {
+				color: white;
+				font-size: 25px;
+			}
+			#details input, #details input:active {
+				font-size: 16px;
+				padding: 6px 5px;
+				border: 1px solid #333;
+				border-radius: 3px;
+				outline: none;
+			}
+			#details input[type=text] {
+				width: 220px;
+			}
+			#details input[type=submit] {
+				background: #0c6;
+				color: white;				
+				font-weight: bold;
+			}
+			#hero {
+				height: 531px;
+				position: absolute;
+				left: 50%;
+				margin-left: -400px;
+				border-radius: 10px;
+			}
+			#iphone {
+				position: absolute;
+				top: 170px;
+				right: 60px;
+			}
+			#screen {
+				position: absolute;
+				top: 240px;
+				width: 210px;
+				right: 73px;
+			}
+			/*
+				http://www.flickr.com/photos/zachd1_618/8850613812/sizes/k/in/photostream/ - Country Road
+				http://farm6.staticflickr.com/5056/5480544493_53d8d77e84_b.jpg - City
+			*/
+		</style>
+		<div id="content">
+			<div id="header">
+				<h1>Mileage <em>for iPhone</em></h1>
+			</div>
+			<img src="./blur.jpg" id="hero">
+			<img id="iphone" src="./iphone.png">
+			<img id="screen" src="./screen.png">
+			<div id="details">
+				<h2>Get credit for the miles you travel.</h2>
+				<p>Track you mileage as you drive from a simple iPhone app, then export your data for taxes or employer reimbursement.</p>
+				<form>
+					<input type="text" placeholder="1 (555) 555-5555" id="number">
+					<input type="submit" value="Subscribe">
+				</form>
+				<p>Leave your number to be notified when it's ready for you!</p>
+			</div>
+		</div>
+		<script>
+			$("#details form").submit(function(evt) {
+				evt.preventDefault();
+				$.get('/api/subscribe/'+$("#number").val(), function(data) {
+					var resp = JSON.parse(data);
+					if( resp.error ) alert("Something went wrong! Try again?");
+					else alert("Thank you for your interest! We'll get back to you shortly.");
+				});
+			});
+		</script>
+	</body>
+</html>
