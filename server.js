@@ -3,7 +3,7 @@ var http = require('http'),
 	fs = require('fs'),
 	twilio = require('twilio');
 	
-http.createServer(function(req, res) {
+exports.module = http.createServer(function(req, res) {
 	if( req.url == '/' ) {
 		res.writeHead(200, {'Content-Type': 'text/html'});
 		fs.createReadStream(__dirname + '/index.html').pipe(res);
