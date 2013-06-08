@@ -3,15 +3,21 @@ var http = require('http'),
 	fs = require('fs'),
 	twilio = require('twilio');
 	
+var key_store = {};
+fs.readFile(__dirname + '/keys.json', function(err, data) {
+	// Read keys from external, private file
+	var keys = JSON.parse(data);
+	key_store.accountSid = keys.accountSid;
+	key_store.authToken = keys.authToken;
+});	
+	
 exports.module = http.createServer(function(req, res) {
 	if( req.url == '/' ) {
 		res.writeHead(200, {'Content-Type': 'text/html'});
 		fs.createReadStream(__dirname + '/index.html').pipe(res);
 	} else if( req.url.match(/^\/api/) ) {		
-		var number = req.url.replace(/^\/api\/subscribe\//, '');
-		var accountSid = 'ACa3aa78f43d06f2f74cc50ae4eb464967';
-		var authToken = "333d70beaae798cc9ea97fa13b338b2c";
-		var client = twilio(accountSid, authToken, 'mneary.info');
+		var number = req.url.replace(/^\/api\/subscribe\//, '');		
+		var client = twilio(this.accountSid, this.authToken, 'mneary.info');
 		client.sms.messages.create({
 		    body: "New Subscriber: "+number,
 		    to: "+16144408217",
@@ -31,4 +37,4 @@ exports.module = http.createServer(function(req, res) {
 			}
 		});		
 	}
-});
+}.bind(key_store)).listen(8080);
